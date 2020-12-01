@@ -1,0 +1,662 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My APIs",
+        "contact": {
+            "name": "SamSalvatico",
+            "email": "samuele.salvatico@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/tree_nodes": {
+            "get": {
+                "tags": [
+                    "TreeNodes"
+                ],
+                "summary": "Get all TreeNodes",
+                "description": "Return all TreeNodes that matches request",
+                "operationId": "getTreeNodes",
+                "parameters": [
+                    {
+                        "name": "criteria",
+                        "in": "query",
+                        "description": "Some optional other parameter",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TreeNode"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied."
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_nodes_view"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "TreeNodes"
+                ],
+                "summary": "Add a new TreeNode",
+                "description": "",
+                "operationId": "addTreeNode",
+                "requestBody": {
+                    "description": "TreeNode object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNode"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNode"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid TreeNode"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TreeNode"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_nodes_create"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/v1/tree_nodes/{id}": {
+            "get": {
+                "tags": [
+                    "TreeNodes"
+                ],
+                "summary": "Find TreeNode by ID",
+                "description": "Returns a single TreeNode",
+                "operationId": "getTreeNode",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of TreeNode to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TreeNode"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_nodes_view"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "TreeNodes"
+                ],
+                "summary": "Update an existing TreeNode",
+                "description": "",
+                "operationId": "updateTreeNode",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "TreeNode id to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "TreeNode object that needs to be updated into the store",
+                    "required": true,
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNode"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNode"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TreeNode"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    },
+                    "405": {
+                        "description": "Invalid TreeNode"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_nodes_edit"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "TreeNodes"
+                ],
+                "summary": "Deletes an TreeNode",
+                "description": "",
+                "operationId": "deleteTreeNode",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "TreeNode id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "TreeNode not found"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_nodes_delete"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/v1/tree_nodes/children": {
+            "get": {
+                "tags": [
+                    "TreeNodes"
+                ],
+                "summary": "Get children TreeNodes",
+                "description": "Return all children TreeNodes that matches request",
+                "operationId": "getTreeNodeChildren",
+                "parameters": [
+                    {
+                        "name": "node_id",
+                        "in": "query",
+                        "description": "the node id",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "description": "Language",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_num",
+                        "in": "query",
+                        "description": "Some optional other parameter",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "search_keyword",
+                        "in": "query",
+                        "description": "Search for",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "only_direct",
+                        "in": "query",
+                        "description": "My personal custom parameter, if true returns count about only children where level = requestedNode->level+1. Default is true",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TreeNode"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied."
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_nodes_view"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/v1/tree_node_names": {
+            "get": {
+                "tags": [
+                    "TreeNodeNames"
+                ],
+                "summary": "Get all TreeNodeNames",
+                "description": "Return all TreeNodeNames that matches request",
+                "operationId": "getTreeNodeNames",
+                "parameters": [
+                    {
+                        "name": "criteria",
+                        "in": "query",
+                        "description": "Some optional other parameter",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TreeNodeName"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied."
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_node_names_view"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "TreeNodeNames"
+                ],
+                "summary": "Add a new TreeNodeName",
+                "description": "",
+                "operationId": "addTreeNodeName",
+                "requestBody": {
+                    "description": "TreeNodeName object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNodeName"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNodeName"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid TreeNodeName"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TreeNodeName"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_node_names_create"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/v1/tree_node_names/{id}": {
+            "get": {
+                "tags": [
+                    "TreeNodeNames"
+                ],
+                "summary": "Find TreeNodeName by ID",
+                "description": "Returns a single TreeNodeName",
+                "operationId": "getTreeNodeName",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of TreeNodeName to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TreeNodeName"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_node_names_view"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "TreeNodeNames"
+                ],
+                "summary": "Update an existing TreeNodeName",
+                "description": "",
+                "operationId": "updateTreeNodeName",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "TreeNodeName id to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "TreeNodeName object that needs to be updated into the store",
+                    "required": true,
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNodeName"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TreeNodeName"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TreeNodeName"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    },
+                    "405": {
+                        "description": "Invalid TreeNodeName"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_node_names_edit"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "TreeNodeNames"
+                ],
+                "summary": "Deletes an TreeNodeName",
+                "description": "",
+                "operationId": "deleteTreeNodeName",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "TreeNodeName id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "TreeNodeName not found"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Auth": [
+                            "tree_node_names_delete"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TreeNode": {
+                "required": [
+                    "node_id",
+                    "level",
+                    "i_left",
+                    "i_right"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "id",
+                        "type": "integer",
+                        "nullable": "false"
+                    },
+                    "node_id": {
+                        "description": "node_id",
+                        "type": "integer",
+                        "nullable": "false"
+                    },
+                    "level": {
+                        "description": "level",
+                        "type": "integer",
+                        "nullable": "false"
+                    },
+                    "i_left": {
+                        "description": "i_left",
+                        "type": "integer",
+                        "nullable": "false"
+                    },
+                    "i_right": {
+                        "description": "i_right",
+                        "type": "integer",
+                        "nullable": "false"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TreeNode"
+                }
+            },
+            "TreeNodeName": {
+                "required": [
+                    "tree_node_id",
+                    "language",
+                    "node_name"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "id",
+                        "type": "integer",
+                        "nullable": "false"
+                    },
+                    "tree_node_id": {
+                        "description": "tree_node_id",
+                        "type": "integer",
+                        "nullable": "false"
+                    },
+                    "language": {
+                        "description": "language",
+                        "type": "string",
+                        "nullable": "false"
+                    },
+                    "node_name": {
+                        "description": "node_name",
+                        "type": "string",
+                        "nullable": "false"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TreeNodeName"
+                }
+            }
+        }
+    }
+}

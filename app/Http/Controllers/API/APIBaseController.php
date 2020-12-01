@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\Controller;
+
+class APIBaseController extends Controller
+{
+
+    public function requestValidate(Request $request)
+    {
+        $rules = method_exists($request, "rules") ? $request->rules() : [];
+        $this->validate($request, $rules);
+    }
+
+    public function sendResponse($result, $code = 200)
+    {
+        if (method_exists($result, 'response'))
+            return Response::json(self::makeResponse($result), $code, $result->response()->headers->all(), JSON_UNESCAPED_UNICODE);
+        else
+            return Response::json(self::makeResponse($result), $code, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    public function sendError($error, $code = 404)
+    {
+        return Response::json(self::makeError($error), $code, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @param string $message
+     * @param mixed $data
+     *
+     * @return array
+     */
+    private static function makeResponse($data)
+    {
+        return $data;/* [
+                'message' => $message,
+                'data' => $data,
+            ];*/
+    }
+
+    /**
+     * @param string $message
+     * @param array $data
+     *
+     * @return array
+     */
+    private static function makeError($message, array $data = [])
+    {
+        $res = [
+            'message' => $message,
+        ];
+
+        if (!empty($data)) {
+            $res['errors'] = $data;
+        }
+
+        return $res;
+    }
+
+}
