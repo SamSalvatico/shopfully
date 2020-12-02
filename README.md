@@ -63,9 +63,9 @@ Then
 docker-compose build && docker-compose up
 ```
 
-And, when the database container is ready, to migrate and seed the database, please run
+And, when the containers are ready, to install packages and migrate and seed the database, please run
 ```
-docker-compose exec samshop php artisan migrate --seed
+docker-compose exec samshop composer install && php artisan migrate --seed --no-interaction --force
 ```
 
 Et voilà! You're ready to work at port 8081 of your localhost.
