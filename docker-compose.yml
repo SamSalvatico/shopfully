@@ -36,7 +36,7 @@ services:
 
   #MySQL Service
   db:
-    image: mysql:latest
+    image: mysql:5.7
     container_name: db
     restart: unless-stopped
     tty: true
@@ -51,12 +51,16 @@ services:
       - dbdata:/var/lib/mysql/
       #- ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
-      - app-network
+      app-network:
+        ipv4_address: 172.20.0.4
 
 #Docker Networks
 networks:
   app-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
 #Volumes
 volumes:
   dbdata:
