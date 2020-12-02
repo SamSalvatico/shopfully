@@ -1,24 +1,92 @@
-# Lumen PHP Framework
+# Shopfully - Samuele Salvatico
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+## Index
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+- [Start](#start)
+- [The code](#the-code)
+- [Classic run](#classic-run)
+- [Docker run](#docker-run)
+- [Endpoints and docs](#endpoints-and-docs)
+- [Example And Manual Tests](#example-and-manual-tests)
 
-## Official Documentation
+## Start
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+This project was developed using Ubuntu 20.04.
 
-## Contributing
+To start you need to have on your machine:
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Look in the composer file;
+- MySql or Postgres instance if you want to run as standalone;
+- [docker](https://docker.com), if you want to run it as image (tested with docker v19.03.8);
 
-## Security Vulnerabilities
+## The code
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+This project was developed on top of Lumen 6.x framework.
 
-## License
+The code useful for the made request is in *app/Repositories/TreeNode/EloquentTreeNodeRepository*
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+All the routes, controllers, interfaces and stuffs in general were automatically generated using a package on which I am the main contributor [lumen-generator](https://github.com/cwssrl/eloquent-lumen-generator) 
+
+## Classic run
+
+*All the commands listed below are intended to be run into the application root folder.*
+
+First of all you have to copy the .env.example file into a .env file.
+After you have to set your correct database connection.
+
+Install packages
+```
+composer install
+```
+
+Run the migrations and seed the db
+```
+php artisan migrate --seed
+```
+
+Run it!
+```
+php -S localhost:8081 -t public
+```
+
+Et voilà! You're ready to work at port 8081 of your localhost.
+
+## Docker run
+
+*All the commands listed below are intended to be run into the application root folder.*
+
+First of all you have to copy the .env.example file into a .env file.
+The database connection properties are already correctly set.
+
+Then
+```
+docker-compose build && docker-compose up
+```
+
+And, when the database container is ready, to migrate and seed the database, please run
+```
+docker-compose exec samshop php artisan migrate --seed
+```
+
+Et voilà! You're ready to work at port 8081 of your localhost.
+
+## Endpoints and docs
+
+If you want to see the docs and test the APIs you can browse
+
+```
+http://localhost:8081/api/v1/documentation
+```
+
+## Example And Manual Tests
+
+This is the workflow you can follow to test the code.
+
+If you go to the documentation url as mentioned above you can find a fully functional swagger-client to test the repo.
+
+The homework-requested API is the following one
+```
+/api/v1/tree_nodes/children
+```
+
+I've added a custom param to the optional ones: **only_direct**. If it is true it returns only data about the "direct" children, so the ones that are only in the following lower level from the requested node one. Otherwise it looks for all the descendants. Default is true
